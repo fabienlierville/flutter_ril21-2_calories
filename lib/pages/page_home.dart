@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PageHome extends StatefulWidget {
@@ -23,84 +26,102 @@ class _PageHomeState extends State<PageHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextAvecStyle("Calcul de Calories", color: Colors.white),
-        backgroundColor: getColor(),
-      ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child:Column(
-            children: [
-              TextAvecStyle("Remplissez tous les champs pour obtenir votre besoin journalier en calories"),
-              Card(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextAvecStyle("Femme", color: Colors.pink),
-                        Switch(
-                            value: genre,
-                            onChanged: (bool b){
-                              setState(() {
-                                genre = b;
-                              });
-                            },
-                          inactiveTrackColor: Colors.pink,
-                          activeColor: Colors.blue,
-                        ),
-                        TextAvecStyle("Homme", color: Colors.blue),
-                      ],
-                    ),
-                    ElevatedButton(
-                        onPressed: (){
-                          selectionDate();
-                        }, 
-                        child: TextAvecStyle((age == null) ? "Appuyez pour votre age" : "Votre age est de ${age!.toInt()} ans", color: Colors.white),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(getColor())
-                      ),
-                    ),
-                    TextAvecStyle("Votre taille est de ${taille?.toInt()} cm"),
-                    Slider(
-                        value: taille ?? 100,
-                        onChanged: (double d){
-                          setState(() {
-                            taille = d;
-                          });
-                        },
-                      min: 100,
-                      max: 250,
-                      activeColor: getColor(),
-                    ),
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      onChanged: (String value){
-                        setState(() {
-                          poids = double.tryParse(value);
-                        });
-                      },
-                      decoration: const InputDecoration(labelText: "Entrez votre poids en Kilos."),
-                    ),
-                    TextAvecStyle("Quelle est votre activité sportive ?", color: getColor()),
-                    rowActiviteSportive(),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: calculerNombreDeCalories,
-                child: TextAvecStyle("Calculer", color: Colors.white),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(getColor())
-                ),
-              )
-            ],
-          ) ,
-        ) ,
-      ),
-    );
+    if(Platform.isAndroid){
+      return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          backgroundColor: getColor(),
+          middle: TextAvecStyle("Calcul de Calories", color: Colors.white),
+        ),
+          child: body()
+      );
+      
+    }else{
+      return Scaffold(
+        appBar: AppBar(
+          title: TextAvecStyle("Calcul de Calories", color: Colors.white),
+          backgroundColor: getColor(),
+        ),
+        body: body(),
+      );
+    }
+    
+    
+
+  }
+
+  Widget body(){
+   return  Center(
+     child: Padding(
+       padding: EdgeInsets.all(20),
+       child:Column(
+         children: [
+           TextAvecStyle("Remplissez tous les champs pour obtenir votre besoin journalier en calories"),
+           Card(
+             child: Column(
+               children: [
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                   children: [
+                     TextAvecStyle("Femme", color: Colors.pink),
+                     Switch(
+                       value: genre,
+                       onChanged: (bool b){
+                         setState(() {
+                           genre = b;
+                         });
+                       },
+                       inactiveTrackColor: Colors.pink,
+                       activeColor: Colors.blue,
+                     ),
+                     TextAvecStyle("Homme", color: Colors.blue),
+                   ],
+                 ),
+                 ElevatedButton(
+                   onPressed: (){
+                     selectionDate();
+                   },
+                   child: TextAvecStyle((age == null) ? "Appuyez pour votre age" : "Votre age est de ${age!.toInt()} ans", color: Colors.white),
+                   style: ButtonStyle(
+                       backgroundColor: MaterialStateProperty.all<Color>(getColor())
+                   ),
+                 ),
+                 TextAvecStyle("Votre taille est de ${taille?.toInt()} cm"),
+                 Slider(
+                   value: taille ?? 100,
+                   onChanged: (double d){
+                     setState(() {
+                       taille = d;
+                     });
+                   },
+                   min: 100,
+                   max: 250,
+                   activeColor: getColor(),
+                 ),
+                 TextField(
+                   keyboardType: TextInputType.number,
+                   onChanged: (String value){
+                     setState(() {
+                       poids = double.tryParse(value);
+                     });
+                   },
+                   decoration: const InputDecoration(labelText: "Entrez votre poids en Kilos."),
+                 ),
+                 TextAvecStyle("Quelle est votre activité sportive ?", color: getColor()),
+                 rowActiviteSportive(),
+               ],
+             ),
+           ),
+           ElevatedButton(
+             onPressed: calculerNombreDeCalories,
+             child: TextAvecStyle("Calculer", color: Colors.white),
+             style: ButtonStyle(
+                 backgroundColor: MaterialStateProperty.all<Color>(getColor())
+             ),
+           )
+         ],
+       ) ,
+     ) ,
+   );
   }
 
   
