@@ -67,14 +67,11 @@ class _PageHomeState extends State<PageHome> {
                      TextAvecStyle("Homme", color: Colors.blue),
                    ],
                  ),
-                 ElevatedButton(
+                 buttonSelonPlateforme(
                    onPressed: (){
                      selectionDate();
                    },
-                   child: TextAvecStyle((age == null) ? "Appuyez pour votre age" : "Votre age est de ${age!.toInt()} ans", color: Colors.white),
-                   style: ButtonStyle(
-                       backgroundColor: MaterialStateProperty.all<Color>(getColor())
-                   ),
+                   text: (age == null) ? "Appuyez pour votre age" : "Votre age est de ${age!.toInt()} ans",
                  ),
                  TextAvecStyle("Votre taille est de ${taille?.toInt()} cm"),
                  sliderSelonPlateforme(),
@@ -92,12 +89,9 @@ class _PageHomeState extends State<PageHome> {
                ],
              ),
            ),
-           ElevatedButton(
+           buttonSelonPlateforme(
              onPressed: calculerNombreDeCalories,
-             child: TextAvecStyle("Calculer", color: Colors.white),
-             style: ButtonStyle(
-                 backgroundColor: MaterialStateProperty.all<Color>(getColor())
-             ),
+             text: "Calculer",
            )
          ],
        ) ,
@@ -184,7 +178,7 @@ class _PageHomeState extends State<PageHome> {
     }
   }
 
-  Widget buttonSelonPlateforme(String text, VoidCallback onPressed){
+  Widget buttonSelonPlateforme({required String text, required VoidCallback onPressed}){
     if(Platform.isAndroid){
       return CupertinoButton(
           child: TextAvecStyle(text, color: Colors.white),
