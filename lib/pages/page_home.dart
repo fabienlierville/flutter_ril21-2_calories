@@ -75,15 +75,7 @@ class _PageHomeState extends State<PageHome> {
                  ),
                  TextAvecStyle("Votre taille est de ${taille?.toInt()} cm"),
                  sliderSelonPlateforme(),
-                 TextField(
-                   keyboardType: TextInputType.number,
-                   onChanged: (String value){
-                     setState(() {
-                       poids = double.tryParse(value);
-                     });
-                   },
-                   decoration: const InputDecoration(labelText: "Entrez votre poids en Kilos."),
-                 ),
+                 textFieldSelonPlateforme(),
                  TextAvecStyle("Quelle est votre activité sportive ?", color: getColor()),
                  rowActiviteSportive(),
                ],
@@ -192,6 +184,30 @@ class _PageHomeState extends State<PageHome> {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(getColor())
         ),
+      );
+    }
+  }
+
+  Widget textFieldSelonPlateforme(){
+    if(Platform.isAndroid){
+      return CupertinoTextField(
+        keyboardType: TextInputType.number,
+          onChanged: (String value) {
+            setState(() {
+              poids = double.tryParse(value);
+            });
+          },
+        placeholder: "Entrez votre poids en Kilos.",
+      );
+    }else{
+      return TextField(
+        keyboardType: TextInputType.number,
+        onChanged: (String value){
+          setState(() {
+            poids = double.tryParse(value);
+          });
+        },
+        decoration: const InputDecoration(labelText: "Entrez votre poids en Kilos."),
       );
     }
   }
