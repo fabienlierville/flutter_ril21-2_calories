@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:universal_io/io.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,16 +63,7 @@ class _PageHomeState extends State<PageHome> {
                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                    children: [
                      TextAvecStyle("Femme", color: Colors.pink),
-                     Switch(
-                       value: genre,
-                       onChanged: (bool b){
-                         setState(() {
-                           genre = b;
-                         });
-                       },
-                       inactiveTrackColor: Colors.pink,
-                       activeColor: Colors.blue,
-                     ),
+                     switchSelonPlateforme(),
                      TextAvecStyle("Homme", color: Colors.blue),
                    ],
                  ),
@@ -125,15 +116,51 @@ class _PageHomeState extends State<PageHome> {
   }
 
   
-  Text TextAvecStyle(String data, {color: Colors.black, fontSize: 15.0}){
-    return Text(
-      data,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          color: color,
-          fontSize: fontSize
-      ),
-    );
+  Widget TextAvecStyle(String data, {color: Colors.black, fontSize: 15.0}){
+    if(Platform.isAndroid){
+      return DefaultTextStyle(
+          style: TextStyle(
+            color: color,
+            fontSize: fontSize
+          ),
+          child: Text(data, textAlign: TextAlign.center,)
+      );
+    }else{
+      return Text(
+        data,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: color,
+            fontSize: fontSize
+        ),
+      );
+    }
+  }
+
+  Widget switchSelonPlateforme(){
+    if(Platform.isAndroid){
+      return CupertinoSwitch(
+        value: genre,
+        onChanged: (bool b){
+          setState(() {
+            genre = b;
+          });
+        },
+        activeColor: Colors.blue,
+        trackColor: Colors.pink,
+      );
+    }else{
+      return Switch(
+        value: genre,
+        onChanged: (bool b){
+          setState(() {
+            genre = b;
+          });
+        },
+        inactiveTrackColor: Colors.pink,
+        activeColor: Colors.blue,
+      );
+    }
   }
 
   Color getColor(){
