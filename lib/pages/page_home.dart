@@ -77,17 +77,7 @@ class _PageHomeState extends State<PageHome> {
                    ),
                  ),
                  TextAvecStyle("Votre taille est de ${taille?.toInt()} cm"),
-                 Slider(
-                   value: taille ?? 100,
-                   onChanged: (double d){
-                     setState(() {
-                       taille = d;
-                     });
-                   },
-                   min: 100,
-                   max: 250,
-                   activeColor: getColor(),
-                 ),
+                 sliderSelonPlateforme(),
                  TextField(
                    keyboardType: TextInputType.number,
                    onChanged: (String value){
@@ -159,6 +149,37 @@ class _PageHomeState extends State<PageHome> {
         },
         inactiveTrackColor: Colors.pink,
         activeColor: Colors.blue,
+      );
+    }
+  }
+
+  Widget sliderSelonPlateforme(){
+    if(Platform.isAndroid){
+      return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.75,
+        child: CupertinoSlider(
+          value: taille ?? 100,
+          onChanged: (double d){
+            setState(() {
+              taille = d;
+            });
+          },
+          min: 100,
+          max: 250,
+          activeColor: getColor(),
+        ),
+      ) ;
+    }else{
+      return Slider(
+        value: taille ?? 100,
+        onChanged: (double d){
+          setState(() {
+            taille = d;
+          });
+        },
+        min: 100,
+        max: 250,
+        activeColor: getColor(),
       );
     }
   }
