@@ -184,6 +184,24 @@ class _PageHomeState extends State<PageHome> {
     }
   }
 
+  Widget buttonSelonPlateforme(String text, VoidCallback onPressed){
+    if(Platform.isAndroid){
+      return CupertinoButton(
+          child: TextAvecStyle(text, color: Colors.white),
+          onPressed: onPressed,
+        color: getColor(),
+      );
+    }else{
+      return ElevatedButton(
+        onPressed: onPressed,
+        child: TextAvecStyle(text, color: Colors.white),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(getColor())
+        ),
+      );
+    }
+  }
+
   Color getColor(){
     //Genre est à true alors homme sinon femme
     if(genre) {
