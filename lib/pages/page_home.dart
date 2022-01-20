@@ -231,10 +231,17 @@ class _PageHomeState extends State<PageHome> {
             return CupertinoDatePicker(
                 onDateTimeChanged: (DateTime dt) {
                   datechoisie = dt;
+                  Duration difference = DateTime.now().difference(datechoisie!);
+                  int jours = difference.inDays;
+                  double ans = (jours / 365);
+                  setState(() {
+                    age = ans;
+                  });
                 },
               initialDateTime:DateTime.now() ,
               maximumYear: DateTime.now().year,
               minimumYear: 1900,
+              mode: CupertinoDatePickerMode.date,
             );
           }
       );
@@ -245,19 +252,21 @@ class _PageHomeState extends State<PageHome> {
         firstDate: DateTime(1900),
         lastDate: DateTime.now(),
       );
+
+      if(datechoisie != null) {
+        Duration difference = DateTime.now().difference(datechoisie!);
+        int jours = difference.inDays;
+        double ans = (jours / 365);
+        setState(() {
+          age = ans;
+        });
+      }
     }
 
 
 
 
-    if(datechoisie != null) {
-      Duration difference = DateTime.now().difference(datechoisie!);
-      int jours = difference.inDays;
-      double ans = (jours / 365);
-      setState(() {
-        age = ans;
-      });
-    }
+
   }
 
 
